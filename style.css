@@ -1,1 +1,10 @@
+/* Ustalamy, żeby etykiety działały jak blok i miały stałą szerokość, dzięki czemu pola wyrównają się od linijki */
+label {
+  display: block;
+  margin-bottom: 8px;
+}
 
+/* Pola tekstowe i lista rozwijana po prawej stronie */
+input, select, textarea {
+  margin-left: 10px;
+}
