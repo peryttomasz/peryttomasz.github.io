@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Układ kolumn 1</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>Układ kolumn 1</h1>
+
+  <!-- Wiersz 1: 2 kolumny -->
+  <div class="row">
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet. Nam a maximus arcu. Fusce dignissim, erat in varius porta, sapien enim facilisis justo.
+    </div>
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet. Nam a maximus arcu. Fusce dignissim, erat in varius porta, sapien enim facilisis justo.
+    </div>
+  </div>
+
+  <!-- Wiersz 2: 1 kolumna (pełna szerokość) -->
+  <div class="row">
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet. Nam a maximus arcu. Fusce dignissim, erat in varius porta, sapien enim facilisis justo, ac aliquet urna massa ut lorem. Quisque dictum a nunc in fringilla. Mauris gravida quam in libero imperdiet condimentum. Fusce iaculis, dui ac consectetur accumsan, sapien lectus eleifend ligula, vitae egestas purus risus ut neque.
+    </div>
+  </div>
+
+  <!-- Wiersz 3: 2 kolumny -->
+  <div class="row">
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet. Nam a maximus arcu. Fusce dignissim, erat in varius porta, sapien enim facilisis justo.
+    </div>
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet. Nam a maximus arcu. Fusce dignissim, erat in varius porta, sapien enim facilisis justo.
+    </div>
+  </div>
+
+  <!-- Wiersz 4: 3 kolumny -->
+  <div class="row">
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet.
+    </div>
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet.
+    </div>
+    <div class="col">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas iaculis ultrices velit a laoreet.
+    </div>
+  </div>
+
+</body>
+</html>
