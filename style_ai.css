@@ -71,6 +71,10 @@ button[type="submit"]:hover {
   line-height: 1.5;
 }
 
+.col-wide {
+  flex: 2;
+}
+
 /* --- PODSTRONA 4: GALERIA (GRID) --- */
 .gallery {
   display: grid;
