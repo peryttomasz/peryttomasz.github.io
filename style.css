@@ -30,6 +30,10 @@ button[type="submit"] {
   flex: 1;
 }
 
+.col-wide {
+  flex: 2;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
