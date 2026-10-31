@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator</title>
+  <style>
+    .kalkulator { width: 180px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+    #ekran { grid-column: span 4; height: 30px; text-align: right; margin-bottom: 4px; }
+    button { height: 35px; }
+  </style>
+</head>
+<body>
+
+  <div class="kalkulator">
+    <input id="ekran" readonly>
+    <button onclick="klik('7')">7</button>
+    <button onclick="klik('8')">8</button>
+    <button onclick="klik('9')">9</button>
+    <button onclick="klik('/')">/</button>
+    <button onclick="klik('4')">4</button>
+    <button onclick="klik('5')">5</button>
+    <button onclick="klik('6')">6</button>
+    <button onclick="klik('*')">*</button>
+    <button onclick="klik('1')">1</button>
+    <button onclick="klik('2')">2</button>
+    <button onclick="klik('3')">3</button>
+    <button onclick="klik('-')">-</button>
+    <button onclick="klik('0')">0</button>
+    <button onclick="klik('.')">.</button>
+    <button onclick="wyczysc()">C</button>
+    <button onclick="klik('+')">+</button>
+    <button onclick="oblicz()" style="grid-column: span 4">=</button>
+  </div>
+
+  <script>
+    let ekran = document.getElementById("ekran");
+    let kropka = false;
+
+    function wyczysc() {
+      ekran.value = "";
+      kropka = false;
+    }
+
+    function klik(znak) {
+      if (ekran.value === "Błąd") wyczysc();
+
+      let t = ekran.value;
+      let ostatni = t.slice(-1);
+      let op = "+-*/";
+
+      if (op.includes(znak)) {
+        if (t === "" || op.includes(ostatni) || ostatni === ".") return;
+        kropka = false;
+      }
+
+      if (znak === ".") {
+        if (kropka || t === "" || op.includes(ostatni)) return;
+        kropka = true;
+      }
+
+      ekran.value += znak;
+    }
+
+    function oblicz() {
+      let t = ekran.value;
+      if (t === "" || "+-*/.".includes(t.slice(-1))) return;
+
+      let wynik = eval(t);
+
+      if (wynik === Infinity || wynik === -Infinity || isNaN(wynik)) {
+        ekran.value = "Błąd";
+      } else {
+        ekran.value = wynik;
+        kropka = String(wynik).includes(".");
+      }
+    }
+  </script>
+
+</body>
+</html>
