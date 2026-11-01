@@ -4,58 +4,136 @@
   <meta charset="UTF-8">
   <title>Kalkulator</title>
   <style>
-    .kalkulator { width: 180px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-    #ekran { grid-column: span 4; height: 30px; text-align: right; }
-    button { height: 35px; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+
+    .kalkulator {
+      width: 220px;
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    #ekran {
+      width: 100%;
+      height: 35px;
+      font-size: 18px;
+      text-align: right;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+
+    .przyciski {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+    }
+
+    button {
+      height: 40px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
 
   <div class="kalkulator">
-    <input id="ekran" readonly>
-    <button onclick="klik('7')">7</button>
-    <button onclick="klik('8')">8</button>
-    <button onclick="klik('9')">9</button>
-    <button onclick="klik('/')">/</button>
-    <button onclick="klik('4')">4</button>
-    <button onclick="klik('5')">5</button>
-    <button onclick="klik('6')">6</button>
-    <button onclick="klik('*')">*</button>
-    <button onclick="klik('1')">1</button>
-    <button onclick="klik('2')">2</button>
-    <button onclick="klik('3')">3</button>
-    <button onclick="klik('-')">-</button>
-    <button onclick="klik('0')">0</button>
-    <button onclick="klik('.')">.</button>
-    <button onclick="ekran.value = ''">C</button>
-    <button onclick="klik('+')">+</button>
-    <button onclick="oblicz()" style="grid-column: span 4">=</button>
+    <input type="text" id="ekran" readonly>
+
+    <div class="przyciski">
+      <button onclick="dodaj('7')">7</button>
+      <button onclick="dodaj('8')">8</button>
+      <button onclick="dodaj('9')">9</button>
+      <button onclick="dodaj('/')">/</button>
+
+      <button onclick="dodaj('4')">4</button>
+      <button onclick="dodaj('5')">5</button>
+      <button onclick="dodaj('6')">6</button>
+      <button onclick="dodaj('*')">*</button>
+
+      <button onclick="dodaj('1')">1</button>
+      <button onclick="dodaj('2')">2</button>
+      <button onclick="dodaj('3')">3</button>
+      <button onclick="dodaj('-')">-</button>
+
+      <button onclick="dodaj('0')">0</button>
+      <button onclick="dodaj('.')">.</button>
+      <button onclick="wyczysc()">C</button>
+      <button onclick="dodaj('+')">+</button>
+
+      <button onclick="oblicz()" style="grid-column: span 4;">=</button>
+    </div>
   </div>
 
   <script>
     let ekran = document.getElementById("ekran");
 
-    function klik(znak) {
-      if (ekran.value === "Błąd") ekran.value = "";
+    function dodaj(znak) {
+      let tekst = ekran.value;
+      let ostatni = tekst.slice(-1);
+      let operatory = "+-*/";
+
+      // Jeśli na ekranie był napis "Błąd", czyścimy go przed wpisaniem nowej liczby
+      if (tekst === "Błąd") {
+        ekran.value = "";
+        tekst = "";
+      }
+
+      // 1. Blokada dwóch operatorów obok siebie (np. 7++2 lub 7+*2)
+      if (operatory.includes(znak)) {
+        if (tekst === "" && znak !== "-") {
+          return; // nie można zacząć działania od +, * ani /
+        }
+        if (operatory.includes(ostatni) || ostatni === ".") {
+          // Jeśli ostatni znak to też operator, podmieniamy go na nowy
+          ekran.value = tekst.slice(0, -1) + znak;
+          return;
+        }
+      }
+
+      // 2. Blokada błędów z kropką (np. 0..2 oraz 1.2.3)
+      if (znak === ".") {
+        // Rozbijamy działanie na osobne liczby (oddzielone przez +, -, *, /)
+        let czesci = tekst.split(/[\+\-\*\/]/);
+        let aktualnaLiczba = czesci[czesci.length - 1];
+
+        // Jeśli w aktualnie pisanej liczbie jest już kropka, nic nie robimy
+        if (aktualnaLiczba.includes(".")) {
+          return;
+        }
+        // Jeśli klikamy kropkę na pusty ekran lub zaraz po znaku (np. 5+.), dodajemy "0."
+        if (aktualnaLiczba === "") {
+          ekran.value += "0.";
+          return;
+        }
+      }
+
+      // Jeśli wszystko jest OK, dopisujemy kliknięty znak do ekranu
       ekran.value += znak;
     }
 
+    function wyczysc() {
+      ekran.value = "";
+    }
+
     function oblicz() {
-      try {
-        if (ekran.value.includes("++") || ekran.value.includes("--")) {
-          ekran.value = "Błąd";
-          return;
-        }
+      let tekst = ekran.value;
+      let ostatni = tekst.slice(-1);
 
-        let wynik = eval(ekran.value);
+      // Jeśli działanie kończy się operatorem (np. "7+"), nic nie liczymy
+      if ("+-*/.".includes(ostatni) || tekst === "") {
+        return;
+      }
 
-        if (!isFinite(wynik)) {
-          ekran.value = "Błąd";
-        } else {
-          ekran.value = wynik;
-        }
-      } catch {
+      // Wykonujemy obliczenie za pomocą eval()
+      let wynik = eval(tekst);
+
+      // Zabezpieczenie przed dzieleniem przez zero (np. 5/0 daje w JS "Infinity")
+      if (wynik === Infinity || wynik === -Infinity || isNaN(wynik)) {
         ekran.value = "Błąd";
+      } else {
+        ekran.value = wynik;
       }
     }
   </script>
