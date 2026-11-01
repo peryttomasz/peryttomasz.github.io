@@ -42,7 +42,7 @@
 
     function oblicz() {
       try {
-        if (ekran.value.includes("++") || ekran.value.includes("--")) {
+        if (ekran.value.includes("++") || ekran.value.includes("--") || ekran.value.includes("//" || ekran.value.includes("**")) {
           ekran.value = "Błąd";
           return;
         }
