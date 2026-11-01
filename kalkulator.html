@@ -34,6 +34,7 @@
 
   <script>
     let ekran = document.getElementById("ekran");
+    let znaki = "+-*/.";
 
     function klik(znak) {
       if (ekran.value === "Błąd") ekran.value = "";
@@ -41,14 +42,22 @@
     }
 
     function oblicz() {
-      try {
-        if (ekran.value.includes("++") || ekran.value.includes("--")) {
+      let t = ekran.value;
+
+      if (t === "" || znaki.includes(t[0]) || znaki.includes(t.slice(-1))) {
+        ekran.value = "Błąd";
+        return;
+      }
+
+      for (let i = 0; i < t.length - 1; i++) {
+        if (znaki.includes(t[i]) && znaki.includes(t[i + 1])) {
           ekran.value = "Błąd";
           return;
         }
+      }
 
-        let wynik = eval(ekran.value);
-
+      try {
+        let wynik = eval(t);
         if (!isFinite(wynik)) {
           ekran.value = "Błąd";
         } else {
