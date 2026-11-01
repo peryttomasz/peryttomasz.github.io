@@ -5,7 +5,7 @@
   <title>Kalkulator</title>
   <style>
     .kalkulator { width: 180px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-    #ekran { grid-column: span 4; height: 30px; text-align: right; }
+    #ekran { grid-column: span 4; height: 30px; text-align: right; margin-bottom: 4px; }
     button { height: 35px; }
   </style>
 </head>
@@ -27,44 +27,51 @@
     <button onclick="klik('-')">-</button>
     <button onclick="klik('0')">0</button>
     <button onclick="klik('.')">.</button>
-    <button onclick="ekran.value = ''">C</button>
+    <button onclick="wyczysc()">C</button>
     <button onclick="klik('+')">+</button>
     <button onclick="oblicz()" style="grid-column: span 4">=</button>
   </div>
 
   <script>
     let ekran = document.getElementById("ekran");
-    let znaki = "+-*/.";
+    let kropka = false;
+
+    function wyczysc() {
+      ekran.value = "";
+      kropka = false;
+    }
 
     function klik(znak) {
-      if (ekran.value === "Błąd") ekran.value = "";
+      if (ekran.value === "Błąd") wyczysc();
+
+      let t = ekran.value;
+      let ostatni = t.slice(-1);
+      let op = "+-*/";
+
+      if (op.includes(znak)) {
+        if (t === "" || op.includes(ostatni) || ostatni === ".") return;
+        kropka = false;
+      }
+
+      if (znak === ".") {
+        if (kropka || t === "" || op.includes(ostatni)) return;
+        kropka = true;
+      }
+
       ekran.value += znak;
     }
 
     function oblicz() {
       let t = ekran.value;
+      if (t === "" || "+-*/.".includes(t.slice(-1))) return;
 
-      if (t === "" || znaki.includes(t[0]) || znaki.includes(t.slice(-1))) {
+      let wynik = eval(t);
+
+      if (wynik === Infinity || wynik === -Infinity || isNaN(wynik)) {
         ekran.value = "Błąd";
-        return;
-      }
-
-      for (let i = 0; i < t.length - 1; i++) {
-        if (znaki.includes(t[i]) && znaki.includes(t[i + 1])) {
-          ekran.value = "Błąd";
-          return;
-        }
-      }
-
-      try {
-        let wynik = eval(t);
-        if (!isFinite(wynik)) {
-          ekran.value = "Błąd";
-        } else {
-          ekran.value = wynik;
-        }
-      } catch {
-        ekran.value = "Błąd";
+      } else {
+        ekran.value = wynik;
+        kropka = String(wynik).includes(".");
       }
     }
   </script>
